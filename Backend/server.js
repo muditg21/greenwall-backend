@@ -21,6 +21,12 @@ app.get("/", (req, res) => {
     res.send("green wall running");
 });
 
+app.get("/api/test", (req,res)=>{
+    res.json({
+       message:"hello from api routes"
+    });
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`server started on port ${port}`);
