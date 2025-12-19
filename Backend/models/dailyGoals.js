@@ -18,7 +18,7 @@ const dailyGoalSchema = new mongoose.Schema({
         required: true,
     },
     date: {
-        type: string,
+        type: String,
         required: true,
     },
     tasks: [taskSchema],
@@ -29,6 +29,6 @@ const dailyGoalSchema = new mongoose.Schema({
 );
 
 
-dailyGoalSchema.index({user:1,data:1},{unique:true});
+dailyGoalSchema.index({user:1,date:1},{unique:true});
 
 module.exports=mongoose.model("dailyGoal",dailyGoalSchema);
