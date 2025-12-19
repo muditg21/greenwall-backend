@@ -68,12 +68,16 @@ function App() {
             let color = "bg-gray-200";
 
             if (day?.tasks?.length) {
+              const total = day.tasks.length;
               const doneCount = day.tasks.filter(t => t.done).length;
-              color =
-                doneCount === day.tasks.length
-                  ? "bg-green-700"
-                  : "bg-green-300";
+              const ratio = doneCount / total;
+
+              if (ratio === 0) color = "bg-gray-200";
+              else if (ratio < 0.34) color = "bg-green-200";
+              else if (ratio < 0.67) color = "bg-green-400";
+              else color = "bg-green-700";
             }
+
 
             return (
               <div
@@ -102,26 +106,49 @@ function App() {
           </button>
         </div>
 
+      
         {/* 📋 TODAY TASKS */}
         <div className="space-y-2 text-left">
           {todayTasks.map((task, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-2"
-            >
+            <div key={index} className="flex items-center gap-2">
               <input
                 type="checkbox"
                 checked={task.done}
                 onChange={() => toggleTask(index)}
               />
-              <span
-                className={task.done ? "line-through text-gray-400" : ""}
+
+              <input
+                type="text"
+                value={task.text}
+                onChange={(e) => {
+                  const updatedTasks = [...todayTasks];
+                  updatedTasks[index].text = e.target.value;
+
+                  setGoals({
+                    ...goals,
+                    [today]: { tasks: updatedTasks },
+                  });
+                }}
+                className={`flex-1 border-b bg-transparent ${task.done ? "line-through text-gray-400" : ""
+                  }`}
+              />
+
+              <button
+                onClick={() => {
+                  const updatedTasks = todayTasks.filter((_, i) => i !== index);
+                  setGoals({
+                    ...goals,
+                    [today]: { tasks: updatedTasks },
+                  });
+                }}
+                className="text-red-500"
               >
-                {task.text}
-              </span>
+                ✕
+              </button>
             </div>
           ))}
         </div>
+
       </div>
     </div>
   );
