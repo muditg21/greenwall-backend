@@ -3,7 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
-const goalRoutes= require("./routes/goalRoutes");
+const dailyGoalRoutes= require("./routes/dailyGoalsRoutes");
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.use(express.json());
 mongoDB();
 
 app.use("/api/auth", authRoutes);
-app.use("/api/goals", goalRoutes);
+app.use("/api/goals", dailyGoalRoutes);
 
 
 
